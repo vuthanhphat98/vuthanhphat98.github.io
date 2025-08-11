@@ -10,7 +10,7 @@ chapter : false
 
 Đây là phần hướng dẫn chi tiết từng bước để bạn có thể tự tay xây dựng hệ thống như đã đề xuất. Chúng ta sẽ bắt đầu từ việc thiết lập môi trường trên AWS, viết mã nguồn, triển khai, và cuối cùng là kiểm thử và gỡ lỗi.
 
-![ConnectPrivate43213123](/images/SD-01.png) 
+![ConnectPrivate43213123](/images/sd01.png) 
 
 ### Nội dung
 
