@@ -1,0 +1,78 @@
+[
+{
+	"uri": "//localhost:1313/1-introduce/",
+	"title": "Introduction",
+	"tags": [],
+	"description": "",
+	"content": "System Introduction This image processing system is an automated pipeline, built entirely on the serverless platform of Amazon Web Services (AWS). Its core purpose is to completely eliminate manual, repetitive image processing tasks.\nInstead of using graphics software to edit each image, you just need to upload the original image, and the system will automatically perform pre-programmed tasks.\nSystem Workflow The system\u0026rsquo;s architecture is designed based on an event-driven model, operating in a simple yet extremely powerful 3-step process:\nTrigger (Upload): A user or an application uploads an original image file to a specific storage folder on Amazon S3.\nProcess: This upload action immediately triggers an AWS Lambda function. This is a Python script that runs automatically without any servers. This script will:\nRead the original image file. Perform processing operations, for example, resizing to create a thumbnail. Save: After processing is complete, the Lambda function automatically saves the resulting image file (the thumbnail) to another storage folder on Amazon S3.\nKey Benefits 100% Automation: Frees up human resources from tedious tasks, allowing them to focus on more creative assignments.\nInfinite Scalability: The system can handle one image or thousands of images simultaneously without any intervention.\nCost-Effective: You only pay for every millisecond that the processing code runs. If no images are uploaded, you incur no costs.\nEfficient and Fast: The entire process takes just a few seconds, accelerating the time-to-market for your content and products.\nMain Purpose To provide a clear, hands-on roadmap that helps you transition from theory to practice in building applications on the AWS cloud platform.\nSpecifically, this guide offers the following value:\n1. Build Practical Skills\nSolve a real-world problem: Instead of learning abstract concepts, you will build a solution for a very common issue: automating image processing. This is a highly applicable skill for web and mobile application projects.\nLearning by Doing: This guide focuses on concrete, practical steps, helping you solidify your knowledge and build confidence when working with AWS services.\n2. Master Modern Cloud Architecture\nDeepen your understanding of Serverless: You will directly experience the benefits of serverless architecture – no infrastructure management, automatic scaling, and cost optimization.\nEmbrace Event-Driven Thinking: You will understand how services can automatically trigger each other based on events (e.g., an S3 file upload triggering Lambda), a very powerful and efficient design pattern.\n3. Security and Cost Optimization\nCost-free Learning: The entire guide is designed to fall within the AWS Free Tier limits, allowing you to learn and experiment without worrying about incurring costs.\nSecurity Best Practices: The guide emphasizes using IAM Roles with the principle of least privilege, helping you form good security habits from the very beginning.\n"
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.1-creates3bucket/",
+	"title": "Preparing VPC and EC2",
+	"tags": [],
+	"description": "",
+	"content": "In this step, we will need to create a VPC with 2 public / private subnets. Then create 1 EC2 Instance Linux located in the public subnet, 1 EC2 Instance Windows located in the private subnet.\nThe architecture overview after you complete this step will be as follows:\nTo learn how to create EC2 instances and VPCs with public/private subnets, you can refer to the lab:\nAbout Amazon EC2 Works with Amazon VPC Content Create VPC Create Public Subnet Create Private Subnet Create security group Create public Linux server Create private Windows server "
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.2-createiamrole/",
+	"title": "Create IAM Role",
+	"tags": [],
+	"description": "",
+	"content": "Create IAM Role In this step, we will proceed to create IAM Role. In this IAM Role, the policy AmazonSSMManagedInstanceCore will be assigned, this is the policy that allows the EC2 server to communicate with the Session Manager.\nGo to IAM service administration interface In the left navigation bar, click Roles. Click Create role. Click AWS service and click EC2. Click Next: Permissions. In the Search box, enter AmazonSSMManagedInstanceCore and press Enter to search for this policy. Click the policy AmazonSSMManagedInstanceCore. Click Next: Tags. Click Next: Review. Name the Role SSM-Role in Role Name Click Create Role . Next, we will make the connection to the EC2 servers we created with Session Manager.\n"
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/",
+	"title": "Preparation ",
+	"tags": [],
+	"description": "",
+	"content": "\rYou need to create 1 Linux instance on the public subnet and 1 Window instance on the private subnet to perform this lab.\nTo learn how to create EC2 instances and VPCs with public/private subnets, you can refer to the lab:\nAbout Amazon EC2 Works with Amazon VPC In order to use System Manager to manage our window instances in particular and our instances in general on AWS, we need to give permission to our instances to be able to work with System Manager. In this preparation, we will also proceed to create an IAM Role to grant permissions to instances that can work with System Manager.\nContent Prepare VPC and EC2 Create IAM Role "
+},
+{
+	"uri": "//localhost:1313/3-buildinglambda/",
+	"title": "Build and Deploy Lambda Function",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/2-prerequiste/2.3-installpython/",
+	"title": "Cài đặt Python",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/4-conducttesting/",
+	"title": "Conduct Testing and Debugging",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/5-cleanup/",
+	"title": "Clean up resources",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/",
+	"title": "Pipeline",
+	"tags": [],
+	"description": "",
+	"content": "Building an Image Processing Pipeline with S3 and Lambda Overview This is a detailed, step-by-step guide to building the proposed system yourself. We will start by setting up the environment on AWS, writing the source code, deploying, and finally, testing and debugging.\nContent Introduction Prerequisites Build and Deploy Lambda Function Conduct Testing and Debugging Clean up resources "
+},
+{
+	"uri": "//localhost:1313/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]

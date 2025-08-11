@@ -1,0 +1,120 @@
+[
+{
+	"uri": "//localhost:1313/vi/1-introduce/",
+	"title": "Giới thiệu",
+	"tags": [],
+	"description": "",
+	"content": "Giới thiệu hệ thống Hệ thống xử lý ảnh này là một pipeline tự động, được xây dựng hoàn toàn trên nền tảng serverless (không máy chủ) của Amazon Web Services (AWS). Mục đích cốt lõi của nó là loại bỏ hoàn toàn công việc xử lý ảnh thủ công, lặp đi lặp lại.\nThay vì phải dùng các phần mềm đồ họa để chỉnh sửa từng ảnh, bạn chỉ cần tải ảnh gốc lên, và hệ thống sẽ tự động thực hiện các tác vụ đã được lập trình sẵn.\nLuồng hoạt động của Hệ thống Kiến trúc của hệ thống được thiết kế theo mô hình hướng sự kiện (event-driven), hoạt động theo một quy trình 3 bước đơn giản nhưng cực kỳ mạnh mẽ:\n1. Kích hoạt (Upload): Người dùng hoặc một ứng dụng tải một file ảnh gốc lên một thư mục lưu trữ đặc biệt trên Amazon S3.\n2. Xử lý (Process): Hành động tải file lên này ngay lập tức kích hoạt một hàm AWS Lambda. Đây là một đoạn mã Python sẽ tự động chạy mà không cần bất kỳ máy chủ nào. Đoạn mã này sẽ:\nĐọc file ảnh gốc.\nThực hiện các thao tác xử lý, ví dụ như thay đổi kích thước để tạo ảnh thu nhỏ (thumbnail).\n3. Lưu trữ (Save): Sau khi xử lý xong, hàm Lambda sẽ tự động lưu file ảnh kết quả (thumbnail) vào một thư mục lưu trữ khác trên Amazon S3.\nCác Lợi ích Chính Tự động hóa 100%: Giải phóng nhân lực khỏi các công việc nhàm chán, giúp họ tập trung vào các nhiệm vụ sáng tạo hơn.\nKhả năng mở rộng Vô hạn: Hệ thống có thể xử lý một ảnh hay hàng ngàn ảnh cùng lúc mà không cần bất kỳ sự can thiệp nào.\nTối ưu Chi phí: Bạn chỉ trả tiền cho mỗi mili-giây mà mã xử lý chạy. Nếu không có ảnh nào được tải lên, bạn không phải trả bất kỳ chi phí nào.\nHiệu quả và Nhanh chóng: Toàn bộ quá trình chỉ mất vài giây, giúp tăng tốc độ đưa nội dung và sản phẩm ra thị trường.\nMục đích chính cung cấp một lộ trình thực hành rõ ràng, giúp bạn chuyển từ lý thuyết sang thực tế trong việc xây dựng ứng dụng trên nền tảng đám mây AWS.\nCụ thể, bài hướng dẫn mang lại những giá trị sau:\n1. Xây dựng Kỹ năng Thực tiễn\nGiải quyết bài toán thực tế: Thay vì học các khái niệm trừu tượng, bạn được tự tay xây dựng một giải pháp cho một vấn đề rất phổ biến: tự động hóa việc xử lý ảnh. Đây là một kỹ năng có tính ứng dụng cao trong các dự án web và ứng dụng di động.\nHọc qua hành động (Learning by Doing): Bài hướng dẫn tập trung vào các bước thực hành cụ thể, giúp bạn củng cố kiến thức và xây dựng sự tự tin khi làm việc với các dịch vụ AWS.\n2. Nắm vững Kiến trúc Đám mây Hiện đại\nHiểu sâu về Serverless: Bạn sẽ trực tiếp trải nghiệm lợi ích của kiến trúc không máy chủ (serverless) – không cần quản lý hạ tầng, tự động co giãn, và tối ưu chi phí.\nTiếp cận Tư duy Hướng sự kiện (Event-Driven): Bạn sẽ hiểu cách các dịch vụ có thể tự động kích hoạt lẫn nhau dựa trên các sự kiện (ví dụ: tải file lên S3 kích hoạt Lambda), một mô hình thiết kế rất mạnh mẽ và hiệu quả.\n3. An toàn và Tối ưu Chi phí\nHọc tập không tốn kém: Toàn bộ bài hướng dẫn được thiết kế để nằm trong giới hạn của AWS Free Tier, cho phép bạn học hỏi và thử nghiệm mà không lo phát sinh chi phí.\nThực hành tốt nhất về Bảo mật: Hướng dẫn nhấn mạnh việc sử dụng IAM Roles với nguyên tắc quyền tối thiểu, giúp bạn hình thành thói quen tốt về bảo mật ngay từ đầu.\n"
+},
+{
+	"uri": "//localhost:1313/vi/3-buildinglambda/3.1-createdeployment/",
+	"title": "Tạo Deployment Package",
+	"tags": [],
+	"description": "",
+	"content": "Tiến hành Tạo Deployment Package (.zip) Môi trường thực thi của Lambda chỉ có sẵn AWS SDK (boto3), không có các thư viện bên thứ ba như Pillow. Do đó, chúng ta phải đóng gói chúng cùng với mã nguồn của mình.\n1. Mở terminal hoặc command prompt, di chuyển vào thư mục dự án của bạn trên máy tính (ví dụ: lambda-image-processor).\n2. Chạy lệnh sau để cài đặt phiên bản Pillow tương thích với môi trường Lambda:\nLệnh này sẽ yêu cầu pip tải về một phiên bản của Pillow được build sẵn cho môi trường Amazon Linux (manylinux2014_x86_64) thay vì phiên bản cho máy tính của bạn.\npip install --platform manylinux2014_x86_64 --target . --python-version 3.9 --only-binary=:all: Pillow 3. Bây giờ, trong thư mục trên có các thư mục của Pillow. Hãy tải và đưa file lambda_function.py vào thư mục trên.\n4. Nén tất cả nội dung này thành một file deployment-package.zip.\nHãy chọn tất cả các file và thư mục bên trong thư mục dự án và nén chúng lại, chứ không phải nén cả thư mục lambda-image-processor. Cấu trúc file .zip phải có lambda_function.py ở cấp gốc.\n"
+},
+{
+	"uri": "//localhost:1313/vi/2-prerequiste/2.1-creates3bucket/",
+	"title": "Tạo S3 Buckets",
+	"tags": [],
+	"description": "",
+	"content": "Tạo hai S3 Buckets Chúng ta cần hai S3 buckets riêng biệt\nViệc tách biệt này là một thông lệ tốt nhất về mặt kiến trúc: nó giúp quản lý dữ liệu rõ ràng (dữ liệu thô và dữ liệu đã xử lý) và quan trọng nhất là để ngăn chặn nguy cơ tạo ra các vòng lặp vô hạn, một rủi ro nghiêm trọng sẽ được thảo luận trong phần \u0026ldquo;Risk Assessment\u0026rdquo;.\n1. Truy cập AWS Management Console và tìm đến dịch vụ S3. 2. Nhấn nút Create bucket. 3. Tạo Bucket chứa ảnh gốc (Input Bucket):\nBucket name: Tên bucket phải là duy nhất trên toàn cầu. Hãy tuân theo một quy ước đặt tên tốt, ví dụ: phat-workshop-input-images. Việc này giúp tránh xung đột tên và dễ dàng nhận diện tài nguyên của bạn. AWS Region: Chọn Region gần bạn nhất để giảm độ trễ khi tải file lên (ví dụ: ap-southeast-1 - Singapore). Block Public Access settings for this bucket: Luôn giữ nguyên tùy chọn Block all public access. Đây là cài đặt bảo mật quan trọng, đảm bảo rằng các file ảnh gốc của bạn không bị truy cập công khai từ internet trừ khi bạn cấp quyền một cách tường minh. Nhấn Create bucket. 4. Tạo Bucket chứa ảnh kết quả (Output Bucket):\nLặp lại quy trình trên để tạo bucket thứ hai. Bucket name: Đặt một cái tên khác tương tự, ví dụ: phat-workshop-output-images. Giữ nguyên các cài đặt khác và nhấn Create bucket.\nBạn đã có 2 S3 buckets riêng biệt, được bảo mật và sẵn sàng cho việc lưu trữ.\n"
+},
+{
+	"uri": "//localhost:1313/vi/4-conducttesting/4.1-testing/",
+	"title": "Thực hiện Kiểm thử End-to-End",
+	"tags": [],
+	"description": "",
+	"content": "1. Truy cập dịch vụ S3.\n2. Đi đến bucket phat-workshop-input-images.\n3. Nhấn Upload, chọn một file ảnh .jpg hoặc .png từ máy tính của bạn và tải lên.\n4. Chờ vài giây, sau đó điều hướng đến bucket phat-workshop-output-images.\n5. Bạn sẽ thấy một file ảnh mới có tên bắt đầu bằng thumb-. Đó chính là thumbnail của bạn!\n"
+},
+{
+	"uri": "//localhost:1313/vi/2-prerequiste/",
+	"title": "Các bước chuẩn bị",
+	"tags": [],
+	"description": "",
+	"content": "Để tìm hiểu về Amazon S3 và Lambda các bạn có thể tham khảo bài lab :\nKhởi Đầu Với Amazon S3 Tối ưu chi phí với Lambda Nền tảng của pipeline là các tài nguyên AWS được cấu hình đúng cách. Bước này đảm bảo rằng chúng ta có nơi để lưu trữ file và có đủ quyền để thực hiện các tác vụ.\nNội dung Tạo S3 Buckets Tạo IAM Role cho Lambda Cài đặt Python "
+},
+{
+	"uri": "//localhost:1313/vi/2-prerequiste/2.2-createiamrole/",
+	"title": "Tạo IAM Role cho Lambda",
+	"tags": [],
+	"description": "",
+	"content": "Tạo IAM Role Hàm Lambda của chúng ta cần được cấp quyền để tương tác với các dịch vụ AWS khác. Thay vì cấp quyền trực tiếp, chúng ta tạo một vai trò (Role) mà Lambda có thể \u0026ldquo;đảm nhận\u0026rdquo; (assume). Điều này tuân thủ nguyên tắc quyền tối thiểu (Principle of Least Privilege), một nền tảng của bảo mật trên đám mây.\n1. Trong AWS Console, tìm đến dịch vụ IAM (Identity and Access Management). 2. Chọn Roles từ menu bên trái và nhấn Create role. 3. Select trusted entity (Chọn thực thể tin cậy):\nTrusted entity type: Chọn AWS service. Điều này có nghĩa là bạn đang cho phép một dịch vụ của AWS (trong trường hợp này là Lambda) đảm nhận vai trò này. Use case: Chọn Lambda. Lựa chọn này sẽ tự động tạo ra một \u0026ldquo;trust policy\u0026rdquo; cho phép dịch vụ Lambda thực hiện hành động sts:AssumeRole. Nhấn Next. 4. Add permissions (Thêm quyền):\nChúng ta cần hai policy được quản lý bởi AWS, sử dụng thanh tìm kiếm để tìm và chọn cả hai policy sau: AWSLambdaBasicExecutionRole: Policy này cực kỳ quan trọng, nó cho phép Lambda tạo log streams và ghi lại các sự kiện thực thi vào Amazon CloudWatch Logs. Nếu không có policy này, bạn sẽ không thể gỡ lỗi hàm của mình. AmazonS3FullAccess: Policy này cung cấp toàn bộ quyền truy cập vào S3. Nhấn Next. Đối với môi trường production, bạn nên tạo một policy tùy chỉnh chỉ với các quyền cần thiết như s3:GetObject và s3:PutObject để đảm bảo an toàn\n5. Name, review, và create:\nRole name: Đặt tên có ý nghĩa (ví dụ: LambdaS3ImageProcessorRole). Review lại các thông tin, đảm bảo \u0026ldquo;Trusted entities\u0026rdquo; là lambda.amazonaws.com và hai policy đã được đính kèm. Nhấn Create role. Bạn đã có một IAM Role được cấu hình an toàn, sẵn sàng để Lambda sử dụng.\n"
+},
+{
+	"uri": "//localhost:1313/vi/3-buildinglambda/3.2-createlambdafunction/",
+	"title": "Tạo và Cấu hình Lambda Function",
+	"tags": [],
+	"description": "",
+	"content": "Tiến hành tạo Lambda Function 1. Quay lại AWS Console, tìm đến dịch vụ Lambda và nhấn Create function.\n2. Chọn Author from scratch.\n3. Basic information:\nFunction name: ImageProcessorFunction Runtime: Chọn Python 3.9 (hoặc phiên bản mới hơn). Architecture: Chọn x86_64.\narm64 (Graviton2) thường cho hiệu năng/giá tốt hơn, nhưng đòi hỏi gói triển khai phải được build cho kiến trúc ARM.\nPermissions: Mở rộng \u0026ldquo;Change default execution role\u0026rdquo;, chọn Use an existing role, và chọn LambdaS3ImageProcessorRole bạn đã tạo. 4. Nhấn Create function.\nTiến cấu hình Lambda Function 5. Sau khi function được tạo, trong tab Code source, nhấn nút Upload from và chọn .zip file.\n6. Tải lên file deployment-package.zip bạn vừa tạo.\n"
+},
+{
+	"uri": "//localhost:1313/vi/4-conducttesting/4.2-debug/",
+	"title": "Theo dõi bằng Amazon CloudWatch Logs",
+	"tags": [],
+	"description": "",
+	"content": "1. Đi đến dịch vụ CloudWatch trong AWS Console.\n2. Chọn Log groups từ menu bên trái.\n3. Tìm và nhấp vào log group của hàm Lambda, có tên là /aws/lambda/ImageProcessorFunction.\n4. Bên trong, bạn sẽ thấy các Log streams, mỗi stream tương ứng với một phiên bản của môi trường thực thi Lambda. Nhấp vào stream mới nhất để xem logs.\nLog thành công sẽ chứa các dòng print mà bạn đã viết, ví dụ: \u0026ldquo;Đã tạo thumbnail thành công\u0026hellip;\u0026rdquo;. Log lỗi sẽ hiển thị một \u0026ldquo;stack trace\u0026rdquo; chi tiết. Hãy đọc từ trên xuống dưới để tìm ra nguyên nhân, ví dụ như \u0026ldquo;Access Denied\u0026rdquo; (lỗi quyền IAM) hoặc \u0026ldquo;No module named \u0026lsquo;PIL\u0026rsquo;\u0026rdquo; (lỗi đóng gói). "
+},
+{
+	"uri": "//localhost:1313/vi/2-prerequiste/2.3-installpython/",
+	"title": "Cài đặt Python",
+	"tags": [],
+	"description": "",
+	"content": "Cài đặt Python mới nhất cho thiết bị Thiệt bị đã cài đặt python có thể bỏ qua bước này\nĐể có thể viết code và đóng gói thư viện cho AWS Lambda, máy tính của bạn cần được cài đặt Python và trình quản lý gói pip. Dưới đây là hướng dẫn chi tiết để kiểm tra và cài đặt. Nếu thiết bị của bạn đã cài đặt python, có thể bỏ qua bước này.\n1. Kiểm tra phiên bản Python hiện có:\nMở Terminal (trên macOS/Linux) hoặc Command Prompt/PowerShell (trên Windows).\nGõ lệnh sau và nhấn Enter:\npython3 \\--version Nếu lệnh trên không hoạt động, hãy thử lệnh này:\npython \\--version Nếu bạn thấy một phiên bản như Python 3.8.x hoặc mới hơn, bạn đã sẵn sàng và có thể chuyển sang Bước 1.2. Nếu bạn nhận được thông báo lỗi \u0026ldquo;command not found\u0026rdquo; hoặc phiên bản thấp hơn 3.8, bạn cần cài đặt Python.\n2. Tải về bộ cài đặt Python:\nTruy cập trang python.org/downloads để tải về chính thức của Python. Trang web sẽ tự động nhận diện hệ điều hành của bạn và đề xuất phiên bản mới nhất. Hãy nhấn nút tải về. 3. Thực hiện cài đặt:\nĐối với người dùng Windows:\nChạy file .exe bạn vừa tải về.\nỞ màn hình cài đặt đầu tiên, hãy chắc chắn rằng bạn đã tick vào ô \u0026ldquo;Add Python to PATH\u0026rdquo; ở phía dưới cùng. Việc này sẽ cho phép bạn chạy lệnh python và pip từ bất kỳ đâu trong Command Prompt mà không cần cấu hình phức tạp.\nNhấn \u0026ldquo;Install Now\u0026rdquo; và làm theo các bước hướng dẫn để hoàn tất. Đối với người dùng macOS:\nChạy file .pkg bạn vừa tải về. Làm theo các bước hướng dẫn trên màn hình. Bộ cài đặt cho macOS sẽ tự động xử lý việc cấu hình PATH cho bạn. 4. Xác minh cài đặt thành công:\nĐóng hoàn toàn cửa sổ Terminal hoặc Command Prompt hiện tại và mở lại một cửa sổ mới.\nGõ lại lệnh kiểm tra phiên bản:\npython3 \\--version Nếu lệnh trên không hoạt động, hãy thử lệnh này:\npython \\--version Lần này, bạn sẽ thấy phiên bản Python mới mà bạn vừa cài đặt. Điều này xác nhận rằng Python đã được cài đặt thành công và sẵn sàng để sử dụng.\n"
+},
+{
+	"uri": "//localhost:1313/vi/3-buildinglambda/3.3-environmentvariables/",
+	"title": "Cấu hình Biến Môi trường",
+	"tags": [],
+	"description": "",
+	"content": "Chỉ định bucket output cho lambda Đây là bước quan trọng để khắc phục nếu gặp lỗi NoSuchBucket. Chúng ta sẽ chỉ cho Lambda biết tên chính xác của bucket output.\n1. Trong trang quản lý ImageProcessorFunction, chuyển sang tab Configuration.\n2. Chọn Environment variables từ menu bên trái, sau đó nhấn Edit.\n3. Nhấn Add environment variable.\n4. Nhập các thông tin sau:\nKey: OUTPUT_BUCKET Value: phat-workshop-output-images (Hãy thay thế bằng tên chính xác của bucket output bạn đã tạo ở Bước 1.2). 5. Nhấn Save.\nBây giờ, mã nguồn Python của bạn có thể đọc biến môi trường này để biết chính xác nơi lưu file thumbnail.\nCấu hình quan trọng Vẫn trong tab Configuration -\u0026gt; General configuration -\u0026gt; Edit.\nMemory: Mặc định là 128MB. Đối với xử lý ảnh, hãy tăng lên 256MB hoặc 512MB để có hiệu năng tốt hơn. Timeout: Mặc định là 3 giây, quá ngắn cho việc xử lý ảnh. Tăng lên 30 giây. Nhấn Save. "
+},
+{
+	"uri": "//localhost:1313/vi/3-buildinglambda/",
+	"title": "Xây dựng và Triển khai Lambda Function",
+	"tags": [],
+	"description": "",
+	"content": "Đây là phần cốt lõi, nơi chúng ta sẽ viết logic xử lý và triển khai nó lên môi trường serverless của AWS.\nPhân tích và Chuẩn bị Mã nguồn Python Hàm Lambda được kích hoạt bởi một sự kiện S3. Sự kiện này chứa thông tin về file vừa được tải lên. Code của chúng ta cần trích xuất tên bucket và tên file từ sự kiện đó. Sử dụng thư viện boto3 (AWS SDK cho Python), chúng ta sẽ tải file ảnh từ S3 vào bộ nhớ của Lambda. Sử dụng thư viện Pillow, chúng ta sẽ xử lý ảnh trong bộ nhớ: thay đổi kích thước. Cuối cùng, dùng boto3 để tải ảnh đã xử lý lên bucket output. Để xem mã nguồn chi tiết và giải thích từng dòng, vui lòng tham khảo tài liệu \u0026ldquo;Mã nguồn Python Chi tiết cho Lambda\u0026rdquo; đi kèm. Nội dung Tạo Deployment Package Tạo và Cấu hình Lambda Function Cấu hình Biến Môi trường Cấu hình S3 Trigger "
+},
+{
+	"uri": "//localhost:1313/vi/3-buildinglambda/3.4-s3trigger/",
+	"title": "Cấu hình S3 Trigger",
+	"tags": [],
+	"description": "",
+	"content": "Tạo trigger Đây là bước cuối cùng để kết nối S3 với Lambda, hoàn thiện pipeline tự động.\n1. Trong trang quản lý ImageProcessorFunction, quay lại tab Code.\n2. Trong phần Function overview, nhấn + Add trigger.\n3. Trigger configuration:\nSelect a source: Chọn S3. Bucket: Chọn bucket input của bạn (phat-workshop-input-images). Event types: Chọn All object create events. Điều này có nghĩa là bất kỳ hành động nào tạo ra một đối tượng mới trong bucket (như PUT, POST, COPY) đều sẽ kích hoạt Lambda. Recursive invocation: Tick vào ô xác nhận \u0026ldquo;I acknowledge that using the same S3 bucket for input and output is not recommended.\u0026rdquo; Đây là một lời cảnh báo quan trọng về nguy cơ vòng lặp vô hạn. 4. Nhấn Add.\n"
+},
+{
+	"uri": "//localhost:1313/vi/4-conducttesting/",
+	"title": "Khởi chạy kiểm thử và Gỡ lỗi",
+	"tags": [],
+	"description": "",
+	"content": "Pipeline xử lý ảnh tự động này có rất nhiều ứng dụng thực tế, đặc biệt là trong các hệ thống cần xử lý một lượng lớn hình ảnh một cách hiệu quả. Về cơ bản, bất kỳ hệ thống nào cho phép người dùng tải lên hoặc hiển thị hình ảnh đều có thể hưởng lợi rất lớn từ việc tự động hóa quy trình xử lý ảnh này. Nó giúp tiết kiệm thời gian, giảm chi phí vận hành, và dễ dàng mở rộng khi doanh nghiệp phát triển.\nNội dung Thực hiện Kiểm thử End-to-End Theo dõi bằng Amazon CloudWatch Logs "
+},
+{
+	"uri": "//localhost:1313/vi/5-cleanup/",
+	"title": "Dọn dẹp tài nguyên",
+	"tags": [],
+	"description": "",
+	"content": "Để tránh phát sinh chi phí không mong muốn sau khi thực hành xong, hãy dọn dẹp các tài nguyên đã tạo:\nXóa S3 Buckets Vào S3, chọn từng bucket, nhấn Empty để xóa hết các đối tượng bên trong, sau đó nhập delete và nhấn Delete để xóa bucket.\nnhập permanently delete và nhấn Empty bucket. nhập tên bucket, trường hợp này là phat-workshop-input-images và nhấn Delete bucket. Tương tự với các bucket còn lại.\nXóa Lambda Function Vào Lambda, chọn ImageProcessorFunction và xóa nó. Xóa IAM Role Vào IAM, tìm và xóa LambdaS3ImageProcessorRole.\n"
+},
+{
+	"uri": "//localhost:1313/vi/",
+	"title": "Pipeline",
+	"tags": [],
+	"description": "",
+	"content": "Xây dựng Pipeline Xử lý Ảnh với S3 và Lambda Tổng quan Đây là phần hướng dẫn chi tiết từng bước để bạn có thể tự tay xây dựng hệ thống như đã đề xuất. Chúng ta sẽ bắt đầu từ việc thiết lập môi trường trên AWS, viết mã nguồn, triển khai, và cuối cùng là kiểm thử và gỡ lỗi.\nNội dung Giới thiệu Các bước chuẩn bị Xây dựng và Triển khai Lambda Function Khởi chạy kiểm thử và Gỡ lỗi Dọn dẹp tài nguyên "
+},
+{
+	"uri": "//localhost:1313/vi/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "//localhost:1313/vi/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]

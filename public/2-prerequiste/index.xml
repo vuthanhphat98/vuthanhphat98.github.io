@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Preparation  on AWS System Manager</title>
+    <link>//localhost:1313/2-prerequiste/</link>
+    <description>Recent content in Preparation  on AWS System Manager</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 27 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="//localhost:1313/2-prerequiste/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Install Python</title>
+      <link>//localhost:1313/2-prerequiste/2.3-installpython/</link>
+      <pubDate>Sat, 27 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>//localhost:1313/2-prerequiste/2.3-installpython/</guid>
+      <description>&lt;h3 id=&#34;install-the-latest-python-for-your-device&#34;&gt;Install the latest Python for your device&lt;/h3&gt;&#xA;&#xD;&#xA;&lt;div class=&#34;notices note&#34; &gt;&lt;p&gt;If your device already has Python installed, you can skip this step.&lt;/p&gt;&#xA;&lt;/div&gt;&#xD;&#xA;&#xA;&lt;p&gt;To write code and package libraries for AWS Lambda, your computer needs Python and the pip package manager installed. Here are detailed instructions to check and install it. If your device already has Python installed, you can skip this step.&lt;/p&gt;&#xA;&lt;p&gt;1. Check the current Python version:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Open Terminal (on macOS/Linux) or Command Prompt/PowerShell (on Windows).&lt;/li&gt;&#xA;&lt;li&gt;Type the following command and press Enter:&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;python3 --version&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;&#xA;&lt;li&gt;If the above command doesn&amp;rsquo;t work, try this one:&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;python --version&#xA;&lt;/code&gt;&lt;/pre&gt;&#xD;&#xA;&lt;div class=&#34;notices info&#34; &gt;&lt;p&gt;If you see a version like Python 3.8.x or later, you&amp;rsquo;re ready and can proceed to Step 1.2. If you get a &amp;ldquo;command not found&amp;rdquo; error or a version lower than 3.8, you need to install Python.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
