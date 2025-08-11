@@ -10,7 +10,7 @@ chapter : false
 
 This is a detailed, step-by-step guide to building the proposed system yourself. We will start by setting up the environment on AWS, writing the source code, deploying, and finally, testing and debugging.
 
-![ConnectPrivate43213123](/images/SD-01.png)
+![ConnectPrivate43213123](/images/sd01.png)
 
 ### Content
 
