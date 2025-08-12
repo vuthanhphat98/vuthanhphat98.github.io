@@ -21,8 +21,8 @@ pre : " <b> 3.2 </b> "
     * **Runtime:** Select **Python 3.9** (or a newer version).
     * **Architecture:** Select **x86_64**.
     {{% notice info %}}
-    arm64 (Graviton2) often offers better price/performance, but requires the deployment package to be built for the ARM architecture.
-    {{% /notice %}}
+arm64 (Graviton2) often offers better price/performance, but requires the deployment package to be built for the ARM architecture.
+{{% /notice %}}
     * **Permissions:** Expand "Change default execution role," select **Use an existing role**, and choose the `LambdaS3ImageProcessorRole` you created.
 
     ![LambdaFunction](/images/image10.png)
